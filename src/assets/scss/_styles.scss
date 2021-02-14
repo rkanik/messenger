@@ -1,0 +1,23 @@
+body {
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+input:focus,
+textarea:focus,
+button:focus {
+	outline: none;
+}
+
+.scrollbar::-webkit-scrollbar {
+	width: 6px;
+}
+.scrollbar {
+	&::-webkit-scrollbar-thumb {
+		background-color: rgba(white, 0.5);
+		&:hover {
+			background-color: rgba(white, 0.65);
+		}
+	}
+}
