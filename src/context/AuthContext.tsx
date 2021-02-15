@@ -6,8 +6,8 @@ import { AuthContextType } from './types'
 
 const AuthContext = createContext<AuthContextType>({
 	...authState,
-	setState: () => { },
-	resetState: () => { },
+	setState() { },
+	resetState() { },
 })
 
 const AuthProvider: React.FC = ({ children }) => {

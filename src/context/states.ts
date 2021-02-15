@@ -1,10 +1,16 @@
-import { AuthState } from "./types";
+import { AuthState, MessagesState, User } from "./types";
 
-export const authState = {
+export const authState: AuthState = {
 	user: {
+		id: '',
 		name: '',
 		email: '',
-		thumbnail: ''
-	},
+		thumbnail: '',
+		friends: []
+	} as User,
 	isAuth: false
-} as AuthState
+}
+
+export const messagesState: MessagesState = {
+	messages: []
+}

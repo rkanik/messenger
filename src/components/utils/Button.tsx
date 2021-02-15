@@ -1,7 +1,9 @@
 import Icon from "./Icon"
 import { classify } from "../../helpers"
+import { _buttonTypes } from "../../enums"
 
 type Props = {
+	type?: _buttonTypes;
 	md?: string;
 	size?: string;
 	icon?: boolean;
@@ -10,35 +12,37 @@ type Props = {
 	iconClass?: string,
 }
 
-const Button = ({ md, size, icon, children, className = '', iconClass }: Props) => {
+const Button = ({ md, size, icon, type = _buttonTypes.button, children, className, iconClass }: Props) => {
 	if (icon)
 		return <IconButton
 			md={md}
+			type={type}
 			size={size}
-			className={className}
-			iconClass={iconClass}
+			className={className || 'bg-gray-200 hover:bg-gray-300'}
+			iconClass={iconClass || 'text-base text-gray-500'}
 		/>
 	return (
-		<button className={className}>
+		<button className={className || ''}>
 			{children}
 		</button>
 	)
 }
 
 type IBProps = {
-	size?: string,
 	md?: string,
+	size?: string,
+	type?: _buttonTypes;
 	className?: string,
 	iconClass?: string,
 }
 const IconButton = ({
-	md,
+	md, type,
 	size = 'h-8 w-8',
 	className = 'bg-gray-200 hover:bg-gray-300',
 	iconClass = 'text-gray-500'
 }: IBProps) => {
 	return (
-		<button className={classify([
+		<button type={type} className={classify([
 			size, className,
 			'rounded-full grid place-items-center transition-colors',
 		])}>

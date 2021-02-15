@@ -8,7 +8,7 @@ import Default from '../layouts/DefaultLayout'
 
 // Pages
 import Home from '../pages/Home'
-import Messages from '../pages/Messages'
+import { MessagesProvider } from '../context/MessagesContext'
 
 const Router = () => {
 	return (
@@ -21,7 +21,7 @@ const Router = () => {
 				/>
 				<Route
 					exact path='/messages'
-					component={Messages}
+					component={MessagesProvider}
 					layout={Default}
 				/>
 			</Switch>

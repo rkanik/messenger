@@ -1,5 +1,4 @@
-export interface User {
-	name: string;
-	thumbnail?: string;
-	email: string
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+
 }
