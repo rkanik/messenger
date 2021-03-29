@@ -1,12 +1,9 @@
+import { User } from "../context/types"
 import Avatar from "./utils/Avatar"
 import Icon from "./utils/Icon"
 
-type Props = {
-	user: {
-		name: string;
-		thumbnail: string;
-		email: string;
-	};
+interface Props {
+	user: User
 	signOut?: () => void
 }
 const ProfileMenu = ({ user, signOut }: Props) => {

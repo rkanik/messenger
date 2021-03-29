@@ -8,7 +8,7 @@ const createActions = (dispatch: Dispatch<Action>) => {
 		dispatch({ type: ActionTypes._setState, payload })
 
 	const pushTo = (payload: [string, ...any]) => {
-		console.log('AC::pushTo', payload)
+		console.log('ACTION::pushTo', payload)
 		dispatch({ type: ActionTypes._pushTo, payload })
 	}
 

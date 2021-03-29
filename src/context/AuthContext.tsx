@@ -1,8 +1,10 @@
-import { useReducer, createContext, useEffect } from 'react'
+import { createContext, useEffect } from 'react'
 import { createActions } from "./ActionsCreator"
+import { usePersistedStateWithReducer } from './persistedState'
 import { AuthReducer } from "./reducers/AuthReducer"
 import { authState } from './states'
-import { AuthContextType } from './types'
+import { Action, AuthContextType, AuthState } from './types'
+import { _localAuthState } from '../consts'
 
 const AuthContext = createContext<AuthContextType>({
 	...authState,
@@ -12,7 +14,9 @@ const AuthContext = createContext<AuthContextType>({
 
 const AuthProvider: React.FC = ({ children }) => {
 
-	const [state, dispatch] = useReducer(AuthReducer, authState)
+	const [state, dispatch] = usePersistedStateWithReducer({
+		key: _localAuthState, value: authState, reducer: AuthReducer
+	}) as [AuthState, React.Dispatch<Action>]
 
 	let {
 		setState,

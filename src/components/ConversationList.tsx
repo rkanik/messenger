@@ -1,15 +1,15 @@
-import { item } from "./conversations/types"
+import { Conversation } from "../context/types"
 
-type PropsTypes = {
-	item: (item: item, b: number) => JSX.Element,
+interface Props {
+	item: (item: Conversation, b: number) => JSX.Element,
 	classNames?: string,
-	list: item[]
+	list: Conversation[]
 }
 
-const ConversationList = ({ item, list, classNames }: PropsTypes) => {
+const ConversationList: React.FC<Props> = ({ item, list, classNames }) => {
 	return (
 		<div className={`flex-1 overflow-y-auto scrollbar ${classNames || ''}`.trim()}>
-			{list.map((a: item, b: number) => item(a, b))}
+			{list.map((a: Conversation, b: number) => item(a, b))}
 		</div>
 	)
 }

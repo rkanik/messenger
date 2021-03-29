@@ -1,16 +1,14 @@
 // Enums
-export enum MsgType {
+export enum MessageTypes {
 	_text = 'text',
 	_image = 'image',
 	_video = 'video',
 	_file = 'video'
 }
-
-enum ConvType {
+export enum ConversationTypes {
 	_group = 'group',
 	_direct = 'direct'
 }
-
 export enum ActionTypes {
 	_setState = 'setState',
 	_pushTo = 'pushTo',
@@ -18,19 +16,22 @@ export enum ActionTypes {
 	_deleteFrom = 'deleteFrom',
 	_resetState = 'resetState'
 }
-
-// Schemas
-export type User = {
-	id: string
-	name: string
-	email: string
-	thumbnail: string
-	friends: string[]
+export enum MessagesStateArrays {
+	messages = 'messages',
+	conversations = 'conversations'
 }
 
-export type Message = {
+// Schemas
+export interface User {
 	id: string
-	type: MsgType
+	name: string
+	email?: string
+	thumbnail: string
+	friends?: string[]
+}
+export interface Message {
+	id: string
+	type: MessageTypes
 	message: string
 	sentAt: string
 	sendBy: string
@@ -42,52 +43,56 @@ export type Message = {
 	forwardedFrom?: boolean
 	messageId?: string
 }
-
-export type Conv = {
+export interface Conversation {
 	id: string
-	type: ConvType
+	type: ConversationTypes
 	color?: string
 	emoji?: string
 	group?: {
 		name: string
-		thumbnail: string
+		thumbnail?: string
 	}
-	members?: string[]
+	members: User[]
+	lastMessage?: {
+		message: string
+		sentAt: number
+	}
+	isStarred: boolean
+	isArchived: boolean
 }
 
 // State Types
-export type AuthState = {
+export interface GlobalState {
+	theme: {
+		isDark: boolean
+	}
+}
+export interface AuthState {
 	user: User;
 	isAuth: boolean;
 }
-export type MessagesState = {
-	messages: Message[]
+export interface MessagesState {
+	messages: Message[],
+	conversations: Conversation[],
+	conversation: Conversation | null,
+	convDetailsExpanded: boolean
 }
 
 // Context Types
-export type AuthContextType = {
-	user: User;
-	isAuth: boolean;
+export interface GlobalContextType extends GlobalState {
+	setState: (payload: any) => void,
+	resetState: () => void,
+}
+export interface AuthContextType extends AuthState {
 	setState: (payload: any) => void;
 	resetState: () => void;
 }
-
-export type MessagesContextType = {
-	messages: Message[];
-	setState: (payload: any) => void;
-	pushTo: (payload: [string, ...any]) => void;
-	updateTo: (payload: [string, any]) => void;
-	deleteFrom: (payload: [string, string]) => void;
-	resetState: () => void;
-}
-
-export type ConvContextType = {
-	convs: Conv[];
-	setState: (payload: any) => void;
-	pushTo: (payload: [string, ...any]) => void;
-	updateTo: (payload: [string, any]) => void;
-	deleteFrom: (payload: [string, string]) => void;
-	resetState: () => void;
+export interface MessagesContextType extends MessagesState {
+	setState: (payload: any) => void
+	pushTo: (payload: [string, ...any]) => void
+	updateTo: (payload: [string, any]) => void
+	deleteFrom: (payload: [string, string]) => void
+	resetState: () => void
 }
 
 export type Action = {
@@ -95,4 +100,4 @@ export type Action = {
 	payload: any | [string, any];
 }
 
-export type Payload<S, V> = [keyof S, V]
+export type Payload<S, V> = [S, V]

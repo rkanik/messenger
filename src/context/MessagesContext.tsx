@@ -1,10 +1,12 @@
-import { useReducer, createContext, useEffect } from 'react'
-import Messages from '../pages/Messages'
+import { createContext, useEffect } from 'react'
 import { createActions } from "./ActionsCreator"
 import { MessagesReducer } from './reducers/MessagesReducer'
 import { messagesState } from './states'
-import { MessagesContextType } from './types'
+import { Action, MessagesContextType, MessagesState } from './types'
 import { History } from 'history';
+import { usePersistedStateWithReducer } from './persistedState'
+import Messages from '../pages/Messages'
+import { _localMsgState } from '../consts'
 
 const MessagesContext = createContext<MessagesContextType>({
 	...messagesState,
@@ -18,7 +20,9 @@ const MessagesContext = createContext<MessagesContextType>({
 type Props = { history: History }
 const MessagesProvider: React.FC<Props> = ({ history }) => {
 
-	const [state, dispatch] = useReducer(MessagesReducer, messagesState)
+	const [state, dispatch] = usePersistedStateWithReducer({
+		key: _localMsgState, value: messagesState, reducer: MessagesReducer
+	}) as [MessagesState, React.Dispatch<Action>]
 
 	let {
 		setState, resetState,

@@ -15,6 +15,10 @@ body {
 	@apply font-body;
 }
 
+.text-primary {
+	@apply text-gray-700 dark:text-gray-200 font-medium;
+}
+
 @tailwind utilities;
 
 .hover\:next\:mx-0:hover + * {

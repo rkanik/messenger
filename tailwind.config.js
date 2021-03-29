@@ -2,7 +2,7 @@ const colors = require('tailwindcss/colors')
 module.exports = {
 	purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
 	presets: [],
-	darkMode: false, // or 'media' or 'class'
+	darkMode: 'class', // or 'media' or 'class'
 	theme: {
 		screens: {
 			sm: '640px',
@@ -28,6 +28,9 @@ module.exports = {
 		},
 		spacing: {
 			px: '1px',
+			'2px': '2px',
+			'3px': '3px',
+			'4px': '4px',
 			0: '0px',
 			0.5: '0.125rem',
 			1: '0.25rem',
@@ -821,7 +824,7 @@ module.exports = {
 		translate: ['responsive', 'hover', 'focus'],
 		userSelect: ['responsive'],
 		verticalAlign: ['responsive'],
-		visibility: ['responsive'],
+		visibility: ['responsive', 'group-hover'],
 		whitespace: ['responsive'],
 		width: ['responsive'],
 		wordBreak: ['responsive'],

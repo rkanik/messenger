@@ -1,11 +1,13 @@
 import { mse } from './enums'
 
-export const classify = (classes: any): string => {
-	if (typeof classes === 'string') return classes
-	classes = Array.isArray(classes)
-		? classes.map(cls => classify(cls))
-		: Object.keys(classes).filter((key: string) => classes[key])
-	return classes.join(' ').trim()
+export const classify = (...classes: any[]): string => {
+	return classes.map((classs: any) => {
+		if (typeof classs === 'string') return classs
+		classs = Array.isArray(classs)
+			? classs.map(cls => classify(cls))
+			: Object.keys(classs).filter((key: string) => classs[key])
+		return classs.join(' ').trim()
+	}).join(' ').trim()
 }
 
 export const random = (max: number, min = 0) => {
@@ -40,7 +42,7 @@ const units = [
 
 const unitMsPairs = getPairs(units)
 
-export const howAgo = (time: string) => {
+export const howAgo = (time: string | number) => {
 	const diff = Date.now() - new Date(time).getTime();
 	const pair = unitMsPairs
 		.filter((e: [string, number][]) => diff >= e[0][1] && diff < e[1][1])
@@ -99,4 +101,65 @@ export const groupify = (
 		{ prev: array[0][key], group: [] }
 	)
 	return result.group
+}
+
+export const onContextMenu = (callback: (e: MouseEvent) => void) => {
+	document.addEventListener('contextmenu', (e) => {
+		callback(e)
+		e.preventDefault();
+	}, false);
+}
+
+export const qs = {
+	stringify(query: any) {
+		let queryString = []
+		for (let key in query)
+			if (query.hasOwnProperty(key)) {
+				queryString.push(
+					encodeURIComponent(key) + "=" +
+					encodeURIComponent(query[key])
+				)
+			}
+		return queryString.join("&")
+	}
+}
+
+
+interface UpsplashConfig {
+	ixid?: string
+	fit?: string
+	auto?: string
+	facepad?: string | number
+	w?: string | number
+	q?: string | number
+}
+export const unsplash = (id: string, config?: UpsplashConfig) => {
+	let mConfig: UpsplashConfig = {
+		q: 80,
+		w: 256,
+		fit: 'auto',
+		auto: 'format',
+		ixid: 'MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1'
+	}
+	if (config) mConfig = { ...mConfig, ...config }
+	return `https://images.unsplash.com/photo-${id}?${qs.stringify(mConfig)}`
+}
+
+interface ReaderResult {
+	(
+		buffer: string | ArrayBuffer | null,
+		file: File,
+	): void
+}
+export const toImageBase64 = (files: FileList | File, callback: ReaderResult) => {
+
+	const readFile = (file: File) => {
+		const reader = new FileReader();
+		const onLoaded = () => (callback(reader.result, file))
+		reader.addEventListener("load", onLoaded, false);
+		reader.readAsDataURL(file);
+	}
+	if (files) {
+		[].forEach.call(files, readFile);
+	}
 }
